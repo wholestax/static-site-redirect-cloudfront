@@ -1,4 +1,4 @@
-# Cloudfront Lambda Redirect
+# Static Site CDN Redirect for Cloudfront
 
 This service is a simple Lambda@Edge function for Cloudfront. It takes a request and conditionally rewrites the uri to direct requests to the `./index.html` file contained within the directory specified by the uri.
 
