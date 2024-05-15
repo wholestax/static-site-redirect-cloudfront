@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: setup node
+        uses: actions/setup-node@main
+        with:
+          node-version-file: ".nvmrc"
+      - name: Install Application
+        run: npm clean-install
+      - name: Run Unit Tests
+        run: npm run test
+      - name: Read Version
+        id: getversion
+        run: echo "::set-output name=version::$(cat VERSION)"
+      - name: Create Release Archive
+        uses: vimtor/action-zip@v1.2
+        with:
+          files: src/redirect.js
+          dest: release-${{ steps.getversion.outputs.version }}.zip
+      - name: Validate Version
+        uses: wholestax/create-aliased-release@main
+        with:
+          validate-only: false
+          version: ${{ steps.getversion.outputs.version }}
+          files: release-${{ steps.getversion.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
