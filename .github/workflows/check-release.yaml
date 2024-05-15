@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: setup node
+        uses: actions/setup-node@main
+        with:
+          node-version-file: ".nvmrc"
+      - name: Install Application
+        run: npm clean-install
+      - name: Run Unit Tests
+        run: npm run test
+      - name: Read Version
+        id: getversion
+        run: echo "::set-output name=version::$(cat VERSION)"
+      - name: Validate Version remote
+        uses: wholestax/create-aliased-release@main
+        with:
+          validate-only: true
+          version: ${{ steps.getversion.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
