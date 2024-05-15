@@ -44,5 +44,3 @@ As you can see the rewrite allows the browser to render the results directly, ra
 This makes a big difference for search bots. The Google bot does process JavaScript and render React Apps. However, it often does not capture content in these cases. This happens because the bot does not wait very long to process the page, so if your app does not render content promptly, it will look like an empty page to Google.
 
 Rewriting the request to return the pre-built html page fixes this issue. The server returns the pre-rendered page, so the content is available as soon as the Google bot retrieves the page.
-
-1
