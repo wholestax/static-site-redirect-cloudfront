@@ -22,7 +22,7 @@ jobs:
       - name: Create Release Archive
         uses: vimtor/action-zip@v1.2
         with:
-          files: src/redirect.js
+          files: src/redirect.mjs
           dest: release-${{ steps.getversion.outputs.version }}.zip
       - name: Validate Version
         uses: wholestax/create-aliased-release@main
